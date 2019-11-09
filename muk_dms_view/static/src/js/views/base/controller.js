@@ -611,6 +611,34 @@ var DocumentsController = Widget.extend(FileUpload, {
     			},
     		};
     	}
+    	menu.incoming_letter = {
+			separator_before: false,
+			separator_after: false,
+			icon: "fa fa-pencil",
+			label: _t("Incoming Letters"),
+			action: function (data) {
+				self._rpc({
+                    model: 'ir.model.data',
+                    method: 'xmlid_to_res_id',
+                    kwargs: {xmlid: 'smart_office.view_add_letter_doc_form'},
+                }).then(function (res_id) {
+                    self.do_action({
+                        name: _t('Add Document/Letter'),
+                        type: 'ir.actions.act_window',
+                        res_model: 'muk_dms.file',
+                        views: [[res_id, 'form']],
+                        target: 'new',
+//                        context: {
+//                            'default_pricelist_id': pricelistId
+//                        }
+
+                    });
+                });
+			},
+			_disabled: function (data) {
+    			return !node.data.perm_write;
+			},
+		};
     	return menu;
     },
     _loadContextMenuFile: function($jstree, node, menu) {
