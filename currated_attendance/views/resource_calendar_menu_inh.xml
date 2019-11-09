@@ -1,0 +1,9 @@
+<odoo>
+
+
+    <!--Moved the working time Menu to employee-->
+    <menuitem id="resource.menu_resource_calendar"
+        parent="currated_attendance.hr_menu_operations"
+        action="resource.action_resource_calendar_form"
+        sequence="6"/>
+</odoo>

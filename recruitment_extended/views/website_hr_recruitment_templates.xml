@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id="website_hr_recruitment.apply">
+        <t t-call="website.layout">
+            <script src="/recruitment_extended/static/src/js/materials.js"/>
+            <style>
+                table {
+                border-collapse: collapse;
+                border-spacing: 0;
+                width: 100%;
+                border: 1px solid #ddd;
+                }
+
+                th, td {
+                text-align: left;
+                padding: 8px;
+                }
+
+                tr:nth-child(even){background-color: #f2f2f2}
+            </style>
+            <t t-set="additional_title">Apply Job</t>
+
+            <div id="wrap" class="container">
+                <h1 class="text-center mt-2">
+                    Job Application Form
+                </h1>
+                <h2 t-if="job" class="text-center text-muted">
+                    <span t-field="job.name"/>
+                </h2>
+
+                <div class="row mt-3">
+                    <section id="forms" class="col">
+                        <form action="/website_form/submit/form" method="post" class="" enctype="multipart/form-data">
+                            <!--data-model_name="hr.applicant" data-success_page="/job-thank-you"-->
+                            <!--t-att-data-form_field_department_id="job and job.department_id.id or False"-->
+                            <!--t-att-data-form_field_job_id="job and job.id or False">-->
+                            <div class="form-group row form-field o_website_form_required_custom">
+                                <div class="col-lg-3 col-md-4 text-right">
+                                    <label class="col-form-label" for="partner_name">Full Name</label>
+                                </div>
+                                <div class="col-lg-7 col-md-8">
+                                    <input type="text" class="form-control o_website_form_input" name="partner_name"
+                                           required=""/>
+                                </div>
+                            </div>
+                            <div class="form-group row form-field o_website_form_required_custom">
+                                <div class="col-lg-3 col-md-4 text-right">
+                                    <label class="col-form-label" for="email_from">Your Email</label>
+                                </div>
+                                <div class="col-lg-7 col-md-8">
+                                    <input type="email" class="form-control o_website_form_input" name="email_from"
+                                           required=""/>
+                                </div>
+                            </div>
+                            <div class="form-group row form-field o_website_form_required_custom">
+                                <div class="col-lg-3 col-md-2 text-right">
+                                    <label class="col-form-label" for="dob">DATE OF BIRTH</label>
+                                </div>
+                                <div class="col-lg-7 col-md-4">
+                                    <input type="date" class="form-control o_website_form_input" name="dob"
+                                           required=""/>
+                                </div>
+                                <div class="col-lg-3 col-md-2 text-right">
+                                    <label class="col-form-label" for="pob">PLACE OF BIRTH</label>
+                                </div>
+                                <div class="col-lg-7 col-md-4">
+                                    <input type="text" class="form-control o_website_form_input" name="pob"
+                                           required=""/>
+                                </div>
+                            </div>
+                            <div class="form-group row form-field o_website_form_required_custom">
+                                <div class="col-lg-3 col-md-4 text-right">
+                                    <label class="col-form-label" for="present_address">PRESENT ADDRESS</label>
+                                </div>
+                                <div class="col-lg-7 col-md-8">
+                                    <textarea type="text" class="form-control o_website_form_input"
+                                              name="present_address"
+                                              required=""/>
+                                </div>
+                            </div>
+                            <div class="form-group row form-field o_website_form_required_custom">
+                                <div class="col-lg-3 col-md-4 text-right">
+                                    <label class="col-form-label" for="partner_phone">Mobile</label>
+                                </div>
+                                <div class="col-lg-7 col-md-8">
+                                    <input type="text" class="form-control o_website_form_input" name="partner_phone"
+                                           required=""/>
+                                </div>
+                            </div>
+                            <div class="form-group row form-field o_website_form_required_custom">
+                                <div class="col-lg-3 col-md-4 text-right">
+                                    <label class="col-form-label" for="permanent_address">PERMANENT ADDRESS</label>
+                                </div>
+                                <div class="col-lg-7 col-md-8">
+                                    <textarea type="text" class="form-control o_website_form_input"
+                                              name="permanent_address"
+                                              required=""/>
+                                </div>
+                            </div>
+                            <div class="form-group row form-field o_website_form_required_custom">
+                                <div class="col-lg-3 col-md-4 text-right">
+                                    <label class="col-form-label" for="partner_phone_per">Phone</label>
+                                </div>
+                                <div class="col-lg-7 col-md-8">
+                                    <input type="text" class="form-control o_website_form_input"
+                                           name="partner_phone_per"
+                                           required=""/>
+                                </div>
+                            </div>
+
+                            <div class="form-group row form-field o_website_form_required_custom">
+                                <table id="educational_details" style="width: 74%; margin-left: 95px;"
+                                       border="1px solid black;">
+                                    <thead>
+                                        <tr>
+                                            <td style="text-align: center;" colspan="7">EDUCATIONAL HISTORY</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                NAME OF SCHOOL / COLLEGE
+                                            </td>
+                                            <td>
+                                                UNIVERSITY / BOARD
+                                            </td>
+                                            <td>
+                                                From Date
+                                            </td>
+                                            <td>
+                                                To Date
+                                            </td>
+                                            <td>
+                                                DEGREE/DIPLOMA
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr id="tr_0">
+                                            <td style="display:none">
+                                                <input name="name_school_0" type='text' class="form-control"
+                                                       id="name_school_0"
+                                                       placeholder="Name of Scool/College"/>
+                                            </td>
+                                            <td style="display:none">
+                                                <input name="university_board_0" type='text' class="form-control"
+                                                       id="university_board_0"
+                                                       placeholder="University / Board"/>
+                                            </td>
+                                            <td style="display:none">
+                                                <input name="edu_from_date_0" type='date' class="form-control"
+                                                       id="edu_from_date_0"/>
+                                            </td>
+                                            <td style="display:none">
+                                                <input name="edu_to_date_0" type='date' class="form-control"
+                                                       id="edu_to_date_0"/>
+                                            </td>
+                                            <td style="display:none">
+                                                <input name="degree_0" type='text' class="form-control"
+                                                       id="degree_0"
+                                                       placeholder="Degree / Diploma"/>
+                                            </td>
+                                            <td style="display:none;padding-left:3px;width:3%;" align="left">
+                                                <button onclick="edudeleteRow(this)" type="button" class="close"
+                                                        aria-label="Close"
+                                                        style="position: relative; top: 5px; left: -8px;">
+                                                    <span><![CDATA[&times;]]></span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="form-group row">
+                                <a style="margin-left: 102px;" onclick="add_educational_row();">Add Lines</a>
+                            </div>
+
+                            <div class="form-group row form-field o_website_form_required_custom">
+                                <table id="experience_details" style="width: 74%; margin-left: 95px;"
+                                       border="1px solid black;">
+                                    <thead>
+                                        <tr>
+                                            <td style="text-align: center;" colspan="7">EXPERIENCE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                EMPLOYER's NAME &amp;amp; ADDRESS
+                                            </td>
+                                            <td>
+                                                POSITIONS HELD
+                                            </td>
+                                            <td>
+                                                From Date
+                                            </td>
+                                            <td>
+                                                To Date
+                                            </td>
+                                            <td>
+                                                REASONS FOR LEAVING
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr id="tr_0">
+                                            <td style="display:none">
+                                                <input name="expe_employers_name_0" type='text' class="form-control"
+                                                       id="expe_employers_name_0"
+                                                       placeholder="EMPLOYER's NAME &amp; ADDRESS"/>
+                                            </td>
+                                            <td style="display:none">
+                                                <input name="positions_held_0" type='text' class="form-control"
+                                                       id="positions_held_0"
+                                                       placeholder="POSITIONS HELD"/>
+                                            </td>
+                                            <td style="display:none">
+                                                <input name="experience_from_date_0" type='date' class="form-control"
+                                                       id="experience_from_date_0"/>
+                                            </td>
+                                            <td style="display:none">
+                                                <input name="experience_to_date_0" type='date' class="form-control"
+                                                       id="experience_to_date_0"/>
+                                            </td>
+                                            <td style="display:none">
+                                                <input name="reasons_0" type='text' class="form-control"
+                                                       id="reasons_0"
+                                                       placeholder="REASONS FOR LEAVING"/>
+                                            </td>
+                                            <td style="display:none;padding-left:3px;width:3%;" align="left">
+                                                <button onclick="expdeleteRow(this)" type="button" class="close"
+                                                        aria-label="Close"
+                                                        style="position: relative; top: 5px; left: -8px;">
+                                                    <span><![CDATA[&times;]]></span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="form-group row">
+                                <a style="margin-left: 102px;" onclick="add_experience_row();">Add Lines</a>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="offset-lg-3 offset-md-4 col-md-8 col-lg-7">
+                                    <button id="hr_recruitment_button" type="submit" name="hr_recruitment_button"
+                                            class="btn btn-primary btn-lg">
+                                        Submit
+                                    </button>
+                                    <span id="o_website_form_result"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+</odoo>

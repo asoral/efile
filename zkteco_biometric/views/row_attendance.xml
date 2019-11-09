@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Row Tree View -->
+        <record id="view_row_tree" model="ir.ui.view">
+            <field name="name">Row Attendance Tree View</field>
+            <field name="model">row.data</field>
+            <field name="groups_id" eval="[(4,ref('hr_attendance.group_hr_attendance_user'))]" />
+            <field name="arch" type="xml">
+                <tree string="Raw Biometric Data">
+                    <field name="row_emp_name" />
+                    <field name="row_bio_id" />
+                    <field name="row_date_time" />
+                    <field name="row_device" />
+                </tree>
+            </field>
+        </record>
+        <!-- Row Form View -->
+        <record id="view_row_form" model="ir.ui.view">
+            <field name="name">Row Attendance Form View</field>
+            <field name="model">row.data</field>
+            <field name="groups_id" eval="[(4,ref('hr_attendance.group_hr_attendance_user'))]" />
+            <field name="arch" type="xml">
+                <form string="Raw Biometric Data">
+                    <group>
+                        <field name="row_emp_name" />
+                        <field name="row_bio_id" />
+                        <field name="row_date_time" />
+                        <field name="row_device" />
+                    </group>
+                </form>
+            </field>
+        </record>
+        <!-- Row data Action -->
+        <record model="ir.actions.act_window" id="row_bio_action">
+            <field name="name">Raw Biometric Data</field>
+            <field name="res_model">row.data</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- Row data Menu at the HR Attendance -->
+        <menuitem id="menu_row_attendances" name="Raw Attendances" parent="hr_attendance.menu_hr_attendance_root" sequence="11" groups="hr_attendance.group_hr_attendance_manager" action="row_bio_action" />
+    </data>
+</odoo>

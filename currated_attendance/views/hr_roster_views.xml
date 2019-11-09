@@ -1,0 +1,92 @@
+<odoo>
+
+
+    <!--=========Resource Calendar Inherit to add night Shift============-->
+    <record id="resource_calendar_form_inherit" model="ir.ui.view">
+        <field name="name">resource.calendar.form</field>
+        <field name="model">resource.calendar</field>
+        <field name="inherit_id" ref="resource.resource_calendar_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="before">
+                <field name="night_shift"/>
+            </xpath>
+            <xpath expr="//field[@name='hours_per_day']" position="after">
+<!--                <field name="buffer_time_float"/>-->
+                 <label for="buffer_time_float"/>
+                  <div>
+                      <field name="buffer_time_float" widget="float_time" class="oe_inline"/> Hours
+                  </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="button_process_attedance_action" model="ir.actions.server">
+        <field name="name">Process Attendance</field>
+        <field name="model_id" ref="currated_attendance.model_hr_attendance_roster"/>
+        <field name="binding_model_id" ref="currated_attendance.model_hr_attendance_roster"/>
+        <field name="state">code</field>
+        <field name="code">records.process_attendance_action()</field>
+    </record>
+    
+    <!-- =========================== Employee Roster Search  view======================= -->
+    <record id="employee_roster_search_view" model="ir.ui.view">
+       <field name="name">hr.attendance.roster.search</field>
+       <field name="model">hr.attendance.roster</field>
+       <field name="arch" type="xml">
+       <search string="currated Attendance">
+            <field name="employee_id"/>
+            <field name="date" />
+            <field name="shift_id"/>
+           <group string="Group By">
+               <filter name="employee_id" string="Employees" context="{'group_by':'employee_id'}" />
+               <filter name="date" string="Dates" context="{'group_by':'date'}" />
+               <filter name="shift_id" string="Shifts" context="{'group_by':'shift_id'}" />
+            </group>
+       </search>
+       </field>
+    </record>
+
+
+    <!--tree view-->
+    <record id="hr_attendance_roster_tree" model="ir.ui.view">
+        <field name="name">Hr Attendance Roster List</field>
+        <field name="model">hr.attendance.roster</field>
+        <field name="arch" type="xml">
+            <tree  string="Hr Attendance roster" editable="bottom">
+                <field name="employee_id"/>
+                <field name="date"/>
+                <field name="shift_id" options="{'no_create':True}" />
+                <field name="shift_line_ids" options="{'no_create':True}" widget="many2many_tags"/>
+                <field name="status" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_hr_attendance_roster" model="ir.actions.act_window">
+        <field name="name">Hr Attendance Roster</field>
+        <field name="res_model">hr.attendance.roster</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="hr_attendance_roster_tree"/>
+    </record>
+
+
+    <menuitem id="hr_menu_operations" name="Operations"
+              parent="hr_attendance.menu_hr_attendance_root" sequence="20" groups="hr.group_hr_manager"/>
+
+        <menuitem id="hr_menu_operations_roster" name="Employee Roster" action="action_hr_attendance_roster"
+                parent="currated_attendance.hr_menu_operations" sequence="2" groups="hr.group_hr_manager"/>
+
+<!--        <menuitem id="hr_menu_currated_attendances" name="Currated Attendance" action="currated_attendance.action_currated_attendances"-->
+<!--            parent="currated_attendance.hr_menu_operations" sequence="4" groups="hr.group_hr_manager"/>-->
+
+<!--        <menuitem id="hr_menu_overtime_request" name="Overtime Request" action="currated_attendance.action_hr_overtime_request"-->
+<!--            parent="currated_attendance.hr_menu_operations" sequence="7" groups="hr.group_hr_manager"/>-->
+
+<!--        <menuitem id="menu_process_attendance"-->
+<!--              name="Process Attendance"-->
+<!--              action="action_process_attendance_wizard"-->
+<!--              parent="currated_attendance.hr_menu_operations"-->
+<!--              sequence="3" />-->
+
+</odoo>

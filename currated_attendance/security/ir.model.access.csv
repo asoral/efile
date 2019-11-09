@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_currated_attendance,access.currated.attendance,model_currated_attendance,base.group_user,1,1,1,1
+access_hr_overtime_request,access.hr.overtime.request,model_hr_overtime_request,base.group_user,1,1,1,1
+access_hr_attendance_roster,access.hr.attendance.roster,model_hr_attendance_roster,base.group_user,1,1,1,1
+access_actual_break_information_wizard,access.actual.break.information.wizard,model_actual_break_information_wizard,base.group_user,1,1,1,1
+access_process_attendance_wizard,access.process.attendance.wizard,model_process_attendance_wizard,base.group_user,1,1,1,1
+access_generate_hr_attendance_roaster_wizard,access.generate.hr.attendance.roaster.wizard,model_generate_hr_attendance_roaster,base.group_user,1,1,1,1
+access_roster_employee_shifts_values_user,access.roster.employee.shifts.values.user,model_roster_employee_shifts_values,base.group_user,1,1,1,1
+access_employee_weekoff_user,access.employee.weekoff.user,model_employee_weekoff,base.group_user,1,1,1,1
+access_actual_break_information_line_user,access.actual.break.information.line.user,model_actual_break_information_line,base.group_user,1,1,1,1
+access_roster_employee_shift_values_line,access.roster.employee.shift.values.line,model_roster_employee_shift_values_line,base.group_user,1,1,1,1

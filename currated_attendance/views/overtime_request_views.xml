@@ -1,0 +1,29 @@
+<odoo>
+
+    <record id="hr_overtime_request_tree_view" model="ir.ui.view">
+        <field name="name">hr.overtime.request</field>
+        <field name="model">hr.overtime.request</field>
+        <field name="arch" type="xml">
+            <tree string="Overtime Request" editable="bottom">
+                <field name="employee_id"/>
+                <field name="date"/>
+                <field name="overtime_hours"/>
+                <field name="shift_id" options="{'no_create': True}"/>
+                <field name="shift_line_id" options="{'no_create': True}"/>
+                <field name="hour_from"/>
+                <field name="hour_to"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_hr_overtime_request" model="ir.actions.act_window">
+        <field name="name">Overtime Request</field>
+        <field name="res_model">hr.overtime.request</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="hr_overtime_request_tree_view"/>
+    </record>
+
+    <menuitem id="hr_menu_overtime_request" name="Overtime Request" action="currated_attendance.action_hr_overtime_request"
+            parent="currated_attendance.hr_menu_operations" sequence="7" groups="hr.group_hr_manager"/>
+</odoo>

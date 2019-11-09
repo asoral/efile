@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--   At Employee,field Biometric id updated   -->
+    <record id="hr_employee_inherit_view" model="ir.ui.view">
+        <field name="name">hr.employee.inherit.view</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='work_location']" position="after">
+                <field name="bioid" />
+            </xpath>
+        </field>
+    </record>
+    <!--    At the HR Attendance,checkin IP and port and checkout IP and port added  -->
+    <record id="hr_attendance_zkteco_inherit_view" model="ir.ui.view">
+        <field name="name">hr.attendance.zkteco.inherit.view</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='check_in']" position="after">
+                <field name="check_in_device" />
+            </xpath>
+            <xpath expr="//field[@name='check_out']" position="after">
+                <field name="check_out_device" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

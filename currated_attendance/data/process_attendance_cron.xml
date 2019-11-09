@@ -1,0 +1,11 @@
+<odoo>
+    <record id="process_attendance_data" model="ir.cron">
+        <field name="name">Process Attendance Data</field>
+        <field name="model_id" ref="model_process_attendance_wizard"/>
+        <field name="state">code</field>
+        <field name="code">model.process_attendance_data()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+    </record>
+</odoo>

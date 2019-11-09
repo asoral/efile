@@ -1,0 +1,59 @@
+<odoo>
+        <record id="actual_break_info_wizard_view" model="ir.ui.view">
+            <field name="name">actual.break.info.wizard</field>
+            <field name="model">actual.break.information.wizard</field>
+            <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="currated_attendance_ref" readonly="1" invisible="1"/>
+                </group>
+
+                <field name="actual_break_line">
+                    <tree create="false">
+
+                        <field name="employee_id" readonly="1"/>
+                        <field name="emp_in"  readonly="1"/>
+                        <button string="Set As Check In" name="set_in_as_checkin" type="object" class="oe_highlight" icon="fa-info-circle" help="Set As Check In"/>
+                        <button string="Set As Check OUT" name="set_in_as_checkout" type="object" class="oe_highlight" icon="fa-info-circle" help="Set As Check In"/>
+                        <field name="emp_out" readonly="1"/>
+                        <button string="Set As Check IN" name="set_out_as_checkin" type="object" class="oe_highlight" icon="fa-info-circle" help="Set As Check Out"/>
+                        <button string="Set As Check OUT" name="set_out_as_checkout" type="object" class="oe_highlight" icon="fa-info-circle" help="Set As Check Out"/>
+                        <field name="actual_break_id" invisible="1"/>
+                    </tree>
+                </field>
+                <field name="attendance_brk_lines" readonly="1" invisible="1"/>
+                <footer>
+                    <button string="Close" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+            </field>
+
+        </record>
+
+        <record id="row_attendance_info_wizard_view" model="ir.ui.view">
+            <field name="name">row.attendance.info.wizard</field>
+            <field name="model">actual.break.information.wizard</field>
+            <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="currated_attendance_ref" readonly="1" invisible="1"/>
+                </group>
+
+                <field name="actual_row_attendance">
+                    <tree create="false">
+
+                        <field name="employee_id" readonly="1"/>
+                        <field name="emp_time"  readonly="1"/>
+                        <button string="Set As Check In" name="set_in_as_checkin" type="object" class="oe_highlight" icon="fa-info-circle" help="Set As Check In"/>
+                        <button string="Set As Check OUT" name="set_in_as_checkout" type="object" class="oe_highlight" icon="fa-info-circle" help="Set As Check In"/>
+                    </tree>
+                </field>
+<!--                <field name="attendance_brk_lines" readonly="1" invisible="1"/>-->
+                <footer>
+                    <button string="Close" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+            </field>
+
+        </record>
+</odoo>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_payrolladvice_inherit" inherit_id="l10n_in_hr_payroll.report_payrolladvice">
+        <xpath expr="//table[1]/tr[4]" position="replace">
+            <tr>
+                <td>
+                    <strong><span t-esc="o.journal_id and o.journal_id.bank_id and o.journal_id.bank_id.name"/>Bank
+                    </strong>
+                </td>
+            </tr>
+        </xpath>
+
+        <xpath expr="//table[1]/tr[6]" position="replace">
+            <tr>
+                <td>
+                    <p class="text-center">
+                        <strong>Payment Advice from
+                            <span t-esc="o.name"/>
+                            A/C no.
+                            <span t-esc="o.journal_id and o.journal_id.bank_account_id and o.journal_id.bank_account_id.acc_number"/>
+                            form period
+                            <span t-esc="get_month(o.date)['from_name']"/>
+                            to
+                            <span t-esc="get_month(o.date)['to_name']"/>
+                        </strong>
+                    </p>
+                </td>
+            </tr>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,38 @@
+<odoo>
+
+    
+    <record id="form_view_emp_atte_wizard" model="ir.ui.view">
+        <field name="name">view.form.emp.atten.wizard</field>
+        <field name="model">wizard.emp.attedance</field>
+        <field name="arch" type="xml">
+            <form string="Employee Attendance">
+                <group>
+                    <group>
+                        <field name="date_range"/>
+                        <field name="date_from" /> 
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="emp_ids"  widget="many2many_tags" options="{'no_create_edit':True}"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="report_pdf" string="Print" type="object" class="oe_highlight" />
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    
+    <record id="emp_attedance_action_wizard" model="ir.actions.act_window">
+        <field name="name">Emp Attendance Report</field>
+        <field name="res_model">wizard.emp.attedance</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    
+    <menuitem id="menu_emp_attendance_report" name="Employee Attendance" parent="hr_attendance.menu_hr_attendance_report" sequence="7" action="emp_attedance_action_wizard"/>
+
+</odoo>

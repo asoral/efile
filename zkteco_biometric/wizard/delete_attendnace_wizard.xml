@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="delet_attendance_wizard_view_form" model="ir.ui.view">
+            <field name="name">Delete all attendance</field>
+            <field name="model">delet.attendance.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Batch delete">
+                    <sheet>
+                        <div>
+                            <p class="oe_view_nocontent_create">
+                              Are you sure you want to delete all attendance from the device?
+                            </p>
+                        </div>
+                    </sheet>
+                    <footer>
+                        <button confirm="Are you sure?"
+                            name="delete_all_attendances"
+                            string="Proceed" type="object"/>
+                        <button class="btn-default" special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window 
+            id="delet_attendance_wizard_view_form"
+            name="Delete attendance" 
+            res_model="delet.attendance.wizard" 
+            src_model="bio.server"
+            key2="client_action_multi"
+            view_mode="form" target="new" view_type="form"
+            />
+    </data>
+</odoo>

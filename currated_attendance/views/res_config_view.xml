@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit_buffer_time" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.hr.attendance</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="80"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]/div[@data-string='Attendances']" position="inside">
+<!--                    <div class="app_settings_block" data-string="Attendances" string="Attendances" data-key="hr_attendance" groups="hr_attendance.group_hr_attendance_manager">-->
+                    <h2>Attendance Data</h2>
+                    <div class="row mt16 o_settings_container">
+                         <div class="col-12 col-lg-6 o_setting_box">
+                              <div>
+                                <label string="Source Attendance Data from" for="source_attendance_data_from"/>
+                                <field name="source_attendance_data_from" widget="radio"/>
+                            </div>
+                         </div>
+                    </div>
+<!--                </div>-->
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

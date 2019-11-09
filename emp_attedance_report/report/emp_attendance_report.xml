@@ -1,0 +1,145 @@
+<odoo>
+    <template id="report_emp_attendance">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                    <h5>Attendance Summary</h5>
+                    <center>
+                        Analyze from <u><span t-field="o.date_from" t-options='{"format": "dd/MM/yyyy"}'/></u> to <u><span t-field="o.date_to" t-options='{"format": "dd/MM/yyyy"}'/></u>
+                    </center>
+                    <br/>
+                    <t t-foreach="o.get_emp_ids()" t-as="emp">
+                        <div class="page">
+                            <bold><t>Name : <t t-esc="str(emp.name)"/></t></bold>
+                            <br/>
+                            <table class="table table-bordered mb32" style="table-layout:auto">
+                                <thead>
+                                    <tr>
+                                        <th>Month</th>
+                                        <t t-foreach="o._get_months()" t-as="month">
+                                            &lt;th class="text-center" colspan=<t t-esc="month['days']"/>&gt;<t t-esc="month['month_name']"/>&lt;/th&gt;
+                                        </t>
+                                        <th/>
+
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">
+                                            <strong>Day and Date</strong>
+                                        </td>
+                                        <t t-foreach="o._get_day(emp)" t-as="day">
+                                            &lt;td class="text-center oe_leftfit oe_rightfit" style="background-color:<t t-esc="day['color']"/>!important; font-size: 8px; min-width: 18px"&gt; <t t-esc="day['day_str']"/>&lt;/td&gt;
+                                        </t>
+                                        <td class="text-center">Sum</td>
+
+
+                                    </tr>
+                                    <tr>
+                                        <t t-foreach="o._get_day(emp)" t-as="day">
+                                            &lt;td class="text-center oe_leftfit oe_rightfit" style="background-color:<t t-esc="day['color']"/>!important; font-size: 10px" &gt; <t t-esc="day['day']"/>&lt;/td&gt;
+                                        </t>
+                                        <td class="text-center"><t t-esc="o.total_working_days"/></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <strong>Attendance</strong>
+                                        </td>
+                                        <t t-foreach="o._get_attendance(emp)" t-as="data">
+                                            &lt;td class="text-center oe_leftfit oe_rightfit" style="background-color:<t t-esc="data['color']"/>!important; font-size: 10px" &gt; <t t-esc="data['present']"/>&lt;/td&gt;
+                                        </t>
+                                        <td class="text-center"><t t-esc="o.present_days"/></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <strong>Check In Time</strong>
+                                        </td>
+                                        <t t-foreach="o._get_attendance(emp)" t-as="data">
+                                            &lt;td class="text-center oe_leftfit oe_rightfit" style="color:<t t-esc="data['color']"/>!important; font-size: 10px" &gt; <t t-esc="data['check_in']"/>&lt;/td&gt;
+                                        </t>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <strong>Check Out Time</strong>
+                                        </td>
+                                        <t t-foreach="o._get_attendance(emp)" t-as="data">
+                                            &lt;td class="text-center oe_leftfit oe_rightfit" style="color:<t t-esc="data['color']"/>!important; font-size: 10px" &gt; <t t-esc="data['check_out']"/>&lt;/td&gt;
+                                        </t>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <strong>Duty Hours</strong>
+                                        </td>
+                                        <t t-foreach="o._get_attendance(emp)" t-as="data">
+                                            &lt;td class="text-center oe_leftfit oe_rightfit" style="color:<t t-esc="data['color']"/>!important; font-size: 10px" &gt; <t t-esc="data['duty_hours']"/>&lt;/td&gt;
+                                        </t>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <strong>Late Coming Min</strong>
+                                        </td>
+                                        <t t-foreach="o._get_attendance(emp)" t-as="data">
+                                            &lt;td class="text-center oe_leftfit oe_rightfit" style="color:<t t-esc="data['color']"/>!important; font-size: 10px" &gt; <t t-esc="data['late_coming']"/>&lt;/td&gt;
+                                        </t>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <strong>Early Going Min</strong>
+                                        </td>
+                                        <t t-foreach="o._get_attendance(emp)" t-as="data">
+                                            &lt;td class="text-center oe_leftfit oe_rightfit" style="color:<t t-esc="data['color']"/>!important; font-size: 10px" &gt; <t t-esc="data['early_going']"/>&lt;/td&gt;
+                                        </t>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <strong>Overtime Hours</strong>
+                                        </td>
+                                        <t t-foreach="o._get_attendance(emp)" t-as="data">
+                                            &lt;td class="text-center oe_leftfit oe_rightfit" style="color:<t t-esc="data['color']"/>!important; font-size: 10px" &gt; <t t-esc="data['overtime']"/>&lt;/td&gt;
+                                        </t>
+                                    </tr>
+
+                                </thead>
+                            </table>
+
+                        </div>
+                        <p style="page-break-after:always;"></p>
+                    </t>
+
+
+                    <div>
+                        <table class="table table-bordered" style="table-layout:auto">
+                            <tr>
+                                <td class="text-center">Leave Type</td>
+                                <t t-foreach="o._get_holidays_status()" t-as="status">
+                                    <td><t t-esc="status['name']"/></td>
+                                </t>
+                            </tr>
+
+                            <tr>
+                                <td>Color</td>
+                                <t t-foreach="o._get_holidays_status()" t-as="status">
+                                    &lt;td style=background-color:<t t-esc="status['color']"/>!important &gt;&lt;/td&gt;
+                                </t>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    
+    <report
+        id="report_emp_attendance"
+        string="Employee Attendance"
+        model="wizard.emp.attedance"
+        report_type="qweb-pdf"
+        file="emp_attedance_report.report_emp_attendance"
+        name="emp_attedance_report.report_emp_attendance"/>    
+    
+</odoo>

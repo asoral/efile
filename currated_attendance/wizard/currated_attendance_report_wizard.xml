@@ -1,0 +1,58 @@
+<odoo>
+    <record id="currated_attendance_report_form" model="ir.ui.view">
+        <field name="name">currated.attendance.report Form</field>
+        <field name="model">currated.attendance.report</field>
+        <field name="arch" type="xml">
+            <form string="Currated Attendance">
+                <sheet>
+                     <group>
+                         <group>
+                             <field name="date_range" />
+                             <field name="report_type" widget="radio"/>
+                        </group>
+                         <group>
+                             <field name="from_date" required="1"/>
+                             <field name="to_date" required="1"/>
+                         </group>
+                     </group>
+                         <notebook>
+                             <page string="Employee">
+                                 <field name="employee_ids" />
+                             </page>
+                             <page string="Department">
+                                 <field name="department_ids" />
+                             </page>
+                             <page string="Employee Tag">
+                                 <field name="employee_tag_ids" />
+                             </page>
+                         </notebook>
+
+                </sheet>
+                 <footer>
+                    <button name="currated_attendance_report_button" type="object"  string="Currated Attendance"  class="btn-primary"/>
+                    or
+                    <button string="Discard" class="btn-primary" special="cancel"/>
+                 </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_currated_attendance_report" model="ir.actions.act_window">
+        <field name="name">Currated Attendance</field>
+        <field name="res_model">currated.attendance.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+    <menuitem id="attendance_report_root" name="Reporting" parent="hr_attendance.menu_hr_attendance_root" sequence="70"/>
+
+    <menuitem id="hr_attendance.menu_hr_attendance_report" name="Attendance" parent="currated_attendance.attendance_report_root" sequence="10" groups="hr_attendance.group_hr_attendance_user" action="hr_attendance.hr_attendance_action_graph"/>
+    <menuitem id="menu_currated_attendance_report"
+              name="Currated Attendance Report"
+              action="action_currated_attendance_report"
+              parent="currated_attendance.attendance_report_root"
+              sequence="30" />
+
+</odoo>

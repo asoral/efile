@@ -1,0 +1,137 @@
+<odoo>
+
+
+
+
+    <!--=====For calendar View=======-->
+    <record id="generate_hr_attendance_roster_calendar" model="ir.ui.view">
+        <field name="name">Generate Attendance Roster Calendar</field>
+        <field name="model">generate.hr.attendance.roaster</field>
+        <field name="arch" type="xml">
+            <calendar string="Attendance Roster" date_start="from_date" date_stop="to_date" mode="month" quick_add="False">
+                <field name="display_name"/>
+                <field name="employee_ids" widget="many2many_tags"/>
+            </calendar>
+        </field>
+    </record>
+
+
+
+    <!-- =========================== Generate Attendance Roster Search  view======================= -->
+    <record id="generate_hr_attendance_roaster_search_view" model="ir.ui.view">
+       <field name="name">generate.hr.attendance.roaster.search</field>
+       <field name="model">generate.hr.attendance.roaster</field>
+       <field name="arch" type="xml">
+       <search string="Generate Roster">
+            <field name="employee_ids"/>
+            <field name="department_ids" />
+           <group string="Group By">
+               <filter name="state" string="States" context="{'group_by':'state'}" />
+            </group>
+       </search>
+       </field>
+    </record>
+
+
+
+    <!--tree view-->
+    <record id="generate_hr_attendance_roster_tree" model="ir.ui.view">
+        <field name="name">Generate Attendance Roster List</field>
+        <field name="model">generate.hr.attendance.roaster</field>
+        <field name="arch" type="xml">
+            <tree  string="Hr Attendance roster">
+                <field name="from_date"/>
+                <field name="to_date"/>
+                <field name="employee_ids" widget="many2many_tags"/>
+                <field name="department_ids" widget="many2many_tags"/>
+                <field name="mode_type"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="generate_hr_attendance_roster_form" model="ir.ui.view">
+        <field name="name">Generate Attendance Roster Form</field>
+        <field name="model">generate.hr.attendance.roaster</field>
+        <field name="arch" type="xml">
+            <form  string="Hr Attendance roster">
+                <header>
+                    <button name="send_for_approval" type="object" states="draft" string="Send For Approval" class="oe_highlight"/>
+                    <button name="confirm_approved" type="object" states="approval" string="Approve" class="oe_highlight"/>
+                    <button name="send_to_amendment" type="object" states="approved" class="oe_highlight" string="Amendment Roster" groups="currated_attendance.hr_stage_amendment"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approval,approved"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date_range"/>
+                            <field name="from_date" required="1"/>
+                            <field name="to_date" required="1"/>
+                            <field name="mode_type"/>
+                        </group>
+                        <group>
+                            <field name="employee_ids" attrs="{'invisible':[('mode_type','not in',['employee','department'])]}" widget="many2many_tags"/>
+                            <field name="department_ids" attrs="{'invisible':[('mode_type','!=','department')]}" widget="many2many_tags"/>
+                            <field name="category_ids" attrs="{'invisible':[('mode_type','!=','category')]}" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                             <!--<button name="get_the_employees" attrs="{'invisible':[('state','=','approved')]}" type="object" string="Fetch Data" class="oe_highlight"/>-->
+                            <button name="get_the_employees_new" attrs="{'invisible':[('state','=','approved')]}" type="object" string="Fetch Data New" class="oe_highlight"/>
+                        </group>
+                    </group>
+                    <field name="roster_lines" attrs="{'readonly':[('state','=','approved')]}" invisible="1">
+                        <tree editable="bottom" >
+                            <field name="employee_id"/>
+                            <field name="date"/>
+                            <field name="shift_id"/>
+                            <field name="shift_line_ids" widget="many2many_tags"/>
+                            <!--<field name="hour_from" readonly="1"/>-->
+                            <!--<field name="hour_to" readonly="1"/>-->
+                            <field name="generate_roster_ref" invisible="1"/>
+                        </tree>
+                    </field>
+                    <field name="roster_lines_ids" attrs="{'readonly':[('state','=','approved')]}">
+                        <tree editable="bottom">
+                            <field name="emp_code"/>
+                            <field name="employee_id"/>
+                            <field name="date" invisible="1"/>
+                            <field name="dep_id"/>
+                            <field name="working_time_id" readonly="0"/>
+                            <field name="night_shift" invisible="1"/>
+                            <field name="sunday" attrs="{'readonly': [('sun','=',True)]}"/>
+                            <field name="monday" attrs="{'readonly': [('mon','=',True)]}"/>
+                            <field name="tuesday" attrs="{'readonly': [('tue','=',True)]}"/>
+                            <field name="wednesday" attrs="{'readonly': [('wen','=',True)]}"/>
+                            <field name="thursday" attrs="{'readonly': [('thu','=',True)]}"/>
+                            <field name="friday" attrs="{'readonly': [('fri','=',True)]}"/>
+                            <field name="saturday" attrs="{'readonly': [('sat','=',True)]}"/>
+                            <field name="sun" invisible="1"/>
+                            <field name="mon" invisible="1"/>
+                            <field name="tue" invisible="1"/>
+                            <field name="wen" invisible="1"/>
+                            <field name="thu" invisible="1"/>
+                            <field name="fri" invisible="1"/>
+                            <field name="sat" invisible="1"/>
+                            <field name="weekly_off_ids" widget="many2many_tags" readonly="0"/>
+                        </tree>
+                    </field>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_generate_hr_attendance_roster" model="ir.actions.act_window">
+        <field name="name">Generate Attendance Roster</field>
+        <field name="res_model">generate.hr.attendance.roaster</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">calendar,tree,form</field>
+    </record>
+
+    <menuitem id="hr_menu_generate_hr_attendance_roster" name="Generate Roaster" action="currated_attendance.action_generate_hr_attendance_roster"
+            parent="currated_attendance.hr_menu_operations" sequence="1" groups="hr.group_hr_manager"/>
+</odoo>

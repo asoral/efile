@@ -1,0 +1,27 @@
+<odoo>
+
+    <record id="report_layout_background_branch" model="report.layout">
+        <field name="view_id" ref="external_layout_branch.external_layout_background_branch"/>
+        <field name="image">/external_layout_branch/static/img/preview_background.png</field>
+        <field name="pdf">/external_layout_branch/static/pdf/preview_background.pdf</field>
+    </record>
+    
+    <record id="report_layout_boxed" model="report.layout">
+        <field name="view_id" ref="external_layout_branch.external_layout_boxed_branch"/>
+        <field name="image">/external_layout_branch/static/img/preview_boxed.png</field>
+        <field name="pdf">/external_layout_branch/static/pdf/preview_boxed.pdf</field>
+    </record>
+    
+    <record id="report_layout_clean" model="report.layout">
+        <field name="view_id" ref="external_layout_branch.external_layout_clean_branch"/>
+        <field name="image">/external_layout_branch/static/img/preview_clean.png</field>
+        <field name="pdf">/external_layout_branch/static/pdf/preview_clean.pdf</field>
+    </record>
+    
+    <record id="report_layout_standard_branch" model="report.layout">
+        <field name="view_id" ref="external_layout_branch.external_layout_standard_branch"/>
+        <field name="image">/external_layout_branch/static/img/preview_standard.png</field>
+        <field name="pdf">/external_layout_branch/static/pdf/preview_standard.pdf</field>
+    </record>
+
+</odoo>

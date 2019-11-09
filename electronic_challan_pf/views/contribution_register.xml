@@ -1,0 +1,52 @@
+<odoo>
+    <data>
+        <!--electronic challan pf-->
+        <!--payroll >= repoting-->
+        <report id="label_contribution_register_template"
+                model="custom.payslip.reports"
+                string="ECR"
+                menu="False"
+                name="electronic_challan_pf.label_contribution_register_view"
+                file="electronic_challan_pf.label_contribution_register_view"
+                report_type="qweb-text"
+        />
+<template id="label_contribution_register_view"><t t-foreach="docs" t-as="o"><t t-translation="off"><t t-foreach="docs.get_report_data()" t-as="data"><t t-esc="data.get('x_uan1')"/>#-#<t t-esc="data.get('name')"/>#-#<t t-esc="int(data.get('grosstotal'))"/>#-#<t t-esc="int(data.get('epfstotal'))"/>#-#<t t-esc="int(data.get('pstotal'))"/>#-#<t t-esc="int(data.get('edlitotal'))"/>#-#<t t-esc="int(data.get('pftotal'))"/>#-#<t t-esc="int(data.get('esptotal'))"/>#-#<t t-esc="int(data.get('epftotal'))"/>#-#0#-#0#-#
+</t></t></t></template>
+
+        <record id="view_branch_config" model="ir.ui.view">
+            <field name="name">Payslip Line Report</field>
+            <field name="model">custom.payslip.reports</field>
+            <field name="arch" type="xml">
+                <form string="Payslip Line Report">
+                    <sheet>
+                        <group>
+                            <field name="from_date" required="1"/>
+                            <field name="to_date" required="1"/>
+                            <!--<field name="emp_tag_ids"/>-->
+                            <field name="x_pfcode1" required="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string='Print' name="print_report"
+                                type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_branch_config" model="ir.actions.act_window">
+            <field name="name">Payslip Line Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">custom.payslip.reports</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menuitem_branch"
+                  parent="hr_payroll.menu_hr_payroll_configuration"
+                  action="action_view_branch_config"
+                  name="Payslip Lines report"/>
+    </data>
+</odoo>

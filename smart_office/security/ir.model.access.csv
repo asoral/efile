@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+muk_doc_organisation,muk_doc_organisation,model_muk_doc_organisation,,1,1,1,1
+muk_doc_sender,muk_doc_sender,model_muk_doc_sender,,1,1,1,1
+muk_doc_department,muk_doc_department,model_muk_doc_department,,1,1,1,1
+muk_note_log,muk_note_log,model_muk_note_log,,1,1,1,1
+muk_designation,muk_designation,model_muk_designation,,1,1,1,1
+
+

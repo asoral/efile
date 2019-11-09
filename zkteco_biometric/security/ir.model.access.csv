@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bio_server,access_bio_server,model_bio_server,base.group_user,1,1,1,1 
+access_visitor_log,access_visitor_log,model_visitor_log,base.group_user,1,1,1,0
+access_row_data,access_row_data,model_row_data,base.group_user,1,1,1,1

@@ -1,0 +1,66 @@
+<odoo>
+<!-- ===========================currated.attendance summary Tree view======================= -->
+    <record id="currated_attendance_summary_tree_view" model="ir.ui.view">
+        <field name="name">currated.attendance.summary.tree</field>
+        <field name="model">currated.attendance.summary</field>
+        <field name="arch" type="xml">
+            <tree string="currated Attendance" create="false">
+                <field name="employee_id"/>
+                <field name="identification_id"/>
+                <field name="work_location"/>
+                <field name="job_title"/>
+                <field name="job_id"/>
+                <field name="grade_id" />
+                <field name="biometric_id" />
+                <field name="department_id"/>
+                <field name="from_date"/>
+                <field name="to_date"/>
+                <field name="expected_duty_hours" widget="float-time"/>
+                <field name="duty_hours" widget="float-time"/>
+                <field name="threshold_late_minute" widget="float-time"/>
+                <field name="working_days"/>
+                <field name="absent_days"/>
+                <field name="worked_days"/>
+                <field name="no_of_late_coming"/>
+                <field name="no_of_early_going"/>
+                <field name="threshold_late_count"/>
+                <field name="late_comming_minute" widget="float-time"/>
+                <field name="early_going_minute" widget="float-time"/>
+                <field name="over_time" widget="float-time"/>
+
+                <button string="Actual Attendance" name="actual_attendacne_button" type="object" class="btn-primary" icon="fa-info-circle"/>
+
+            </tree>
+        </field>
+    </record>
+
+        <!-- ===========================Currated Attendance Graph view======================= -->
+    <record id="currated_attendance_summary_graph" model="ir.ui.view">
+        <field name="name">currated.attendance.summary.graph</field>
+        <field name="model">currated.attendance.summary</field>
+        <field name="arch" type="xml">
+            <graph string="Currated Attendance">
+                <field name="employee_id" type="row"/>
+                <field name="working_days" type="col"/>
+                <field name="absent_days" type="col"/>
+                <field name="worked_days" type="col"/>
+            </graph>
+         </field>
+    </record>
+
+    <!-- ===========================Currated Attendance Pivot view======================= -->
+    <record id="currated_attendance_summary_pivot" model="ir.ui.view">
+        <field name="name">currated.attendance.summary.pivot</field>
+        <field name="model">currated.attendance.summary</field>
+        <field name="arch" type="xml">
+            <pivot string="Currated Attendance">
+                <field name="employee_id" type="row"/>
+                <field name="working_days" type="col"/>
+                <field name="absent_days" type="col"/>
+                <field name="worked_days" type="col"/>
+            </pivot>
+         </field>
+    </record>
+
+
+</odoo>

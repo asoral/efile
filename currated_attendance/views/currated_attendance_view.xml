@@ -1,0 +1,112 @@
+<odoo>
+
+    <!--#Added Many2many in Employee-->
+    <record id="view_employee_form_inherit_weekoffs" model="ir.ui.view">
+        <field name="name">hr.employee.inherited</field>
+        <field name="model">hr.employee</field>
+        <field name="priority" eval="80"/>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tz']" position="after">
+                <field name="weekoff_ids" widget="many2many_tags" options="{'no_create_edit':True}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ===========================Currated Attendance Graph view======================= -->
+    <record id="currated_attendance_graph" model="ir.ui.view">
+        <field name="name">currated.attendance.graph</field>
+        <field name="model">currated.attendance</field>
+        <field name="arch" type="xml">
+            <graph string="Currated Attendance">
+                <field name="employee_id" type="row"/>
+                <field name="check_in" type="row"/>
+                <field name="check_out" type="col"/>
+            </graph>
+         </field>
+    </record>
+
+    <!-- ===========================Currated Attendance Pivot view======================= -->
+    <record id="currated_attendance_pivot" model="ir.ui.view">
+        <field name="name">currated.attendance.pivot</field>
+        <field name="model">currated.attendance</field>
+        <field name="arch" type="xml">
+            <pivot string="Currated Attendance">
+                <field name="employee_id" type="row"/>
+                <field name="check_in" type="row"/>
+                <field name="check_out" type="col"/>
+            </pivot>
+         </field>
+    </record>
+
+
+      <!-- ===========================currated.attendance Tree view======================= -->
+    <record id="currated_attendance_tree_view" model="ir.ui.view">
+        <field name="name">currated.attendance.tree</field>
+        <field name="model">currated.attendance</field>
+        <field name="arch" type="xml">
+            <tree string="currated Attendance" create="false">
+                <field name="employee_id"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
+                <field name="department_id"/>
+                <!--<field name="operating_unit_id"/>-->
+                <field name="roster_id"/>
+                <field name="expected_start"/>
+                <field name="expected_end"/>
+                <field name="duty_hours" widget="float_time"/>
+                <field name="expected_duty_hours" widget="float_time"/>
+                <field name="early_going"/>
+                <field name="early_going_min" widget="float_time" string="EG Min.(MM:SS)"/>
+                <field name="half_hr_ded" string="Half Hr Ded."/>
+                <field name="half_day_ded" string="Half Day Ded."/>
+                <field name="late_coming"/>
+                <field name="late_coming_min" widget="float_time" string="LC Min.(MM:SS)"/>
+                <field name="absent"/>
+                <field name="overtime"/>
+                <field name="exception"/>
+                <field name="threshold_late" invisible="1"/>
+                <field name="threshold_late_minute" invisible="1"/>
+                <field name="overtime_hours" widget="float_time"/>
+                <button string="Actual Break" name="actual_break_button" type="object" class="btn-primary" icon="fa-info-circle"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- =========================== currated.attendance Search  view======================= -->
+    <record id="currated_attendance_search_view" model="ir.ui.view">
+       <field name="name">currated.attendance.search</field>
+       <field name="model">currated.attendance</field>
+       <field name="arch" type="xml">
+       <search string="currated Attendance">
+            <field name="employee_id"/>
+            <field name="department_id" />
+            <!--<field name="operating_unit_id"/>-->
+            <field name="roster_id"/>
+           <filter name="is_absent" string="Absent" domain="[('absent','=',True)]"/>
+           <filter name="is_overtime" string="Overtime" domain="[('overtime','=',True)]"/>
+           <filter name="is_early_going" string="Early Going" domain="[('early_going','=',True)]" />
+           <filter name="is_late_coming" string="Late Coming" domain="[('late_coming','=',True)]" />
+           <group string="Group By">
+               <filter name="employee_id" string="Employees" context="{'group_by':'employee_id'}" />
+               <filter name="department_id" string="Departments" context="{'group_by':'department_id'}" />
+               <!--<filter name="operating_unit_id" string="Operating Unit" context="{'group_by':'operating_unit_id'}" />-->
+                <filter name="roster_id" string="Roosters" context="{'group_by':'roster_id'}" />
+            </group>
+       </search>
+       </field>
+    </record>
+
+    <record id="action_currated_attendances" model="ir.actions.act_window">
+        <field name="name">Currated Attendance</field>
+        <field name="res_model">currated.attendance</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,pivot,graph</field>
+        <field name="view_id" ref="currated_attendance_tree_view"/>
+    </record>
+
+<menuitem id="hr_menu_currated_attendances" name="Currated Attendance" action="currated_attendance.action_currated_attendances"
+            parent="currated_attendance.hr_menu_operations" sequence="4" groups="hr.group_hr_manager"/>
+
+
+</odoo>
