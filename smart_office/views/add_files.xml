@@ -12,7 +12,7 @@
                         <sheet>
                             <group col="2">
                                 <group>
-                                    <field colspan="2" name="name" required="1"/>
+<!--                                    <field colspan="2" name="doc_name" required="1"/>-->
                                     <field name="doc_file_date" colspan="2" readonly="1"/>
                                     <field colspan="2" name="doc_type_of_file"/>
                                     <field name="doc_file_status" colspan="2" widget="radio"/>

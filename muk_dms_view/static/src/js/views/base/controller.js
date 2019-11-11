@@ -610,6 +610,35 @@ var DocumentsController = Widget.extend(FileUpload, {
 	    			return !$jstree.can_paste() && !node.data.perm_create;
     			},
     		};
+//    	}
+//    	if(menu.action && menu.action.submenu) {
+    		menu.action.submenu.deal_with_file = {
+    			separator_before: false,
+    			separator_after: false,
+				icon: "fa fa-clipboard",
+    			label: _t("Deal With File"),
+    			action: function (data) {
+    			    self.params['muk_doc_data'] = data;
+                    self._rpc({
+                        model: 'ir.model.data',
+                        method: 'xmlid_to_res_id',
+                        kwargs: {xmlid: 'smart_office.view_add_files_doc_form_incoming'},
+                    }).then(function (res_id) {
+                        var muk_res_id = self.params.muk_doc_data.reference.prevObject.selector.split('_').reverse()[0];
+                        self.do_action({
+                            name: _t('Deal With File'),
+                            type: 'ir.actions.act_window',
+                            res_model: 'muk_dms.directory',
+                            views: [[res_id, 'form']],
+                            target: 'blank',
+                            res_id: parseInt(muk_res_id),
+                        });
+                    });
+    			},
+    			_disabled: function (data) {
+	    			return !$jstree.can_paste() && !node.data.perm_create;
+    			},
+    		};
     	}
     	menu.incoming_letter = {
 			separator_before: false,
@@ -617,21 +646,28 @@ var DocumentsController = Widget.extend(FileUpload, {
 			icon: "fa fa-pencil",
 			label: _t("Incoming Letters"),
 			action: function (data) {
+			    self.params['muk_doc_data'] = data;
 				self._rpc({
                     model: 'ir.model.data',
                     method: 'xmlid_to_res_id',
                     kwargs: {xmlid: 'smart_office.view_add_letter_doc_form'},
                 }).then(function (res_id) {
+                    var muk_res_id = self.params.muk_doc_data.reference.prevObject.selector.split('_').reverse()[0];
                     self.do_action({
                         name: _t('Add Document/Letter'),
                         type: 'ir.actions.act_window',
                         res_model: 'muk_dms.file',
                         views: [[res_id, 'form']],
-                        target: 'new',
-//                        context: {
-//                            'default_pricelist_id': pricelistId
-//                        }
+                        target: 'blank',
+                        context: {
+                            'default_directory': parseInt(muk_res_id),
+                            'smart_office': 'smart_office',
+                        }
 
+                    }, {
+                        on_reverse_breadcrumb: function() {
+                            self.trigger_up('reverse_breadcrumb', {});
+                        }
                     });
                 });
 			},
@@ -665,6 +701,83 @@ var DocumentsController = Widget.extend(FileUpload, {
 				});
 			}
     	};
+    	menu.doc_create_file = {
+			separator_before: false,
+			separator_after: false,
+			icon: "fa fa-pencil",
+			label: _t("Create File"),
+			action: function (data) {
+
+			    self.params['muk_doc_data'] = data;
+
+//			    this._model.call(
+//                'smart_office_create_file', [this], {});
+
+//                self._rpc({
+//                    model: 'muk_dms.file',
+//                    method: 'smart_office_create_file',
+//                    args: [this],
+//                });
+
+				self._rpc({
+                    model: 'ir.model.data',
+                    method: 'xmlid_to_res_id',
+                    kwargs: {xmlid: 'smart_office.view_wizard_create_file'},
+                }).then(function (res_id) {
+                    var muk_res_id = self.params.muk_doc_data.reference.prevObject.selector.split('_').reverse()[0];
+                    self.do_action({
+                        name: _t('Create File'),
+                        type: 'ir.actions.act_window',
+                        res_model: 'wizard.create.file',
+                        views: [[res_id, 'form']],
+                        target: 'new',
+                        context: {
+                            'default_reference_letter_ids': [parseInt(muk_res_id)],
+                            'letter_id': parseInt(muk_res_id),
+                        }
+
+                    });
+                });
+
+
+			},
+			_disabled: function (data) {
+    			return !node.data.perm_write;
+			},
+		};
+		menu.doc_forward_file = {
+			separator_before: false,
+			separator_after: false,
+			icon: "fa fa-pencil",
+			label: _t("Forward"),
+			action: function (data) {
+			    self.params['muk_doc_data_forward'] = data;
+				self._rpc({
+                    model: 'ir.model.data',
+                    method: 'xmlid_to_res_id',
+                    kwargs: {xmlid: 'smart_office.view_wizard_forward_file'},
+                }).then(function (res_id) {
+                    var muk_res_id = self.params.muk_doc_data_forward.reference.prevObject.selector.split('_').reverse()[0];
+                    self.do_action({
+                        name: _t('Create File'),
+                        type: 'ir.actions.act_window',
+                        res_model: 'wizard.forward.file',
+                        views: [[res_id, 'form']],
+                        target: 'new',
+                        context: {
+                            'letter_id': parseInt(muk_res_id)
+                        }
+
+                    });
+                });
+
+
+			},
+			_disabled: function (data) {
+    			return !node.data.perm_write;
+			},
+		};
+
     	return menu;
     },
 });

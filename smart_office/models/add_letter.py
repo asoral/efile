@@ -5,6 +5,29 @@ class AddLetter(models.Model):
     _rec_name = "name"
     _description = "Add Document/Letter"
 
+    current_owner_id = fields.Many2one('res.users', 'Current Owner')
+
+    @api.model
+    def create(self, vals):
+        if self._context.get('smart_office', False):
+            vals['directory'] = self.env.ref('smart_office.smart_office_directory').id
+            vals['responsible_user_id'] = self.env.user.id
+        if 'code' not in vals or vals['code'] == _('New'):
+            vals['name'] = self.env['ir.sequence'].next_by_code('muk.dms.letter') or _('New')
+        res = super(AddLetter, self).create(vals)
+        if self._context.get('smart_office', False):
+            self.env['muk.letter.tracker'].create(dict(
+                type='create',
+                # from_id=False,
+                to_id=self.env.user.id,
+                letter_id=res.id
+            ))
+        return res
+
+    @api.constrains('name')
+    def _check_name(self):
+        pass
+
     # Letter Information
     responsible_user_id = fields.Many2one('res.users', default=lambda self:self.env.user.id)
     document_type = fields.Selection([('letter', 'Letter'),
@@ -49,13 +72,7 @@ class AddLetter(models.Model):
 
     forward_from_id = fields.Many2one('res.users', 'Forward From', default=lambda self:self.env.user.id)
     forward_to_id = fields.Many2one('res.users', 'Forward To')
-    
-    @api.model
-    def create(self, vals):
-        if self._context.get('smart_office', False):
-            vals['directory'] = self.env.ref('smart_office.smart_office_directory').id
-            vals['responsible_user_id'] = self.env.user.id
-        return super(AddLetter, self).create(vals)
+
 
     def smart_office_create_file(self):
         files = [(6, 0, self.ids)]

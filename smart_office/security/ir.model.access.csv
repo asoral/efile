@@ -4,5 +4,5 @@ muk_doc_sender,muk_doc_sender,model_muk_doc_sender,,1,1,1,1
 muk_doc_department,muk_doc_department,model_muk_doc_department,,1,1,1,1
 muk_note_log,muk_note_log,model_muk_note_log,,1,1,1,1
 muk_designation,muk_designation,model_muk_designation,,1,1,1,1
-
+muk_letter_tracker,muk_letter_tracker,model_muk_letter_tracker,,1,1,1,1
 

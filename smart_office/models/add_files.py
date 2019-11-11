@@ -1,8 +1,17 @@
-from odoo import models, api, fields
+from odoo import models, api, fields,_
+from odoo.exceptions import ValidationError
 
 class AddFiles(models.Model):
     _inherit = "muk_dms.directory"
     _description = "Add Files"
+
+    @api.multi
+    def unlink(self):
+        for rec in self:
+            if rec.id == self.env.ref('smart_office.smart_office_directory').id or \
+                    rec.id == self.env.ref('smart_office.smart_office_directory_root').id:
+                raise ValidationError(_('\"Incoming Files\" and \"Root Directory\" directory cannot be deleted!'))
+        return super(AddFiles, self).unlink()
 
     doc_file_date = fields.Date('File Date', default=fields.Date.context_today)
     doc_type_of_file = fields.Text('Type of File')
@@ -53,6 +62,11 @@ class AddFiles(models.Model):
                                     ('closed', 'Closed')], default='forward')
     designation_id = fields.Many2one('muk.designation', 'Designation')
     doc_remarks = fields.Text('Remarks')
+    # doc_name = fields.Many2one('muk_dms.directory', 'Name')
+
+    @api.onchange('doc_name')
+    def compute_doc_name_details(self):
+        pass
 
 class NoteLog(models.Model):
     _name = "muk.note.log"

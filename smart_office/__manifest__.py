@@ -15,18 +15,21 @@
     'category': 'Smart Office',
     'version': '0.1',
 
-    'depends': ['muk_dms', 'muk_dms_actions', ],
+    'depends': ['mail', 'muk_dms', 'muk_dms_actions', ],
 
     'data': [
         'data/data.xml',
+        'data/sequence.xml',
         'security/ir.model.access.csv',
+        # 'security/ir_rule.xml',
         'views/add_letter.xml',
         'views/letters_view.xml',
         'views/add_files.xml',
         'views/files_view.xml',
+        'views/wizard.xml',
     ],
     'demo': [
     ],
-    'installable': True,
+    # 'installable': True,
     'application': True,
 }

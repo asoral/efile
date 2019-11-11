@@ -6108,6 +6108,20 @@
 									obj = inst.get_node(data.reference);
 								inst.paste(obj);
 							}
+						},
+						"deal_with_file" : {
+							"separator_before"	: false,
+							"icon"				: false,
+							"_disabled"			: function (data) {
+								return !$.jstree.reference(data.reference).can_paste();
+							},
+							"separator_after"	: false,
+							"label"				: "Deal With File",
+							"action"			: function (data) {
+								var inst = $.jstree.reference(data.reference),
+									obj = inst.get_node(data.reference);
+								inst.paste(obj);
+							}
 						}
 					}
 				},
@@ -6116,7 +6130,41 @@
 					"icon"				: false,
 					"separator_after"	: false,
 					"_disabled"			: false, //(this.check("delete_node", data.reference, this.get_parent(data.reference), "")),
-					"label"				: "Delete",
+					"label"				: "Incoming Letter",
+					"action"			: function (data) {
+						var inst = $.jstree.reference(data.reference),
+							obj = inst.get_node(data.reference);
+						if(inst.is_selected(obj)) {
+							inst.delete_node(inst.get_selected());
+						}
+						else {
+							inst.delete_node(obj);
+						}
+					}
+				},
+				"doc_create_file" : {
+					"separator_before"	: false,
+					"icon"				: false,
+					"separator_after"	: false,
+					"_disabled"			: false, //(this.check("delete_node", data.reference, this.get_parent(data.reference), "")),
+					"label"				: "Create File",
+					"action"			: function (data) {
+						var inst = $.jstree.reference(data.reference),
+							obj = inst.get_node(data.reference);
+						if(inst.is_selected(obj)) {
+							inst.delete_node(inst.get_selected());
+						}
+						else {
+							inst.delete_node(obj);
+						}
+					}
+				},
+				"doc_forward_file" : {
+					"separator_before"	: false,
+					"icon"				: false,
+					"separator_after"	: false,
+					"_disabled"			: false, //(this.check("delete_node", data.reference, this.get_parent(data.reference), "")),
+					"label"				: "Forward",
 					"action"			: function (data) {
 						var inst = $.jstree.reference(data.reference),
 							obj = inst.get_node(data.reference);
