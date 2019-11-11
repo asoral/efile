@@ -9,23 +9,36 @@
             <field name="arch" type="xml">
                 <xpath expr="//form" position="replace">
                     <form string="Deal With File">
-                        <group col="3">
+                        <group col="2">
                             <group string="Note Log">
-                                <field name="note_log_ids">
-                                    <tree string="note Log">
+                                <field name="note_log_ids" context="{'default_type': 'green'}">
+                                    <tree string="Note Log">
                                         <field name="name"/>
                                     </tree>
+                                    <form string="Note Log">
+                                        <field name="name"/>
+                                        <field name="type" readonly="1"/>
+                                    </form>
+                                </field>
+                                <field name="correspondence_log_ids" context="{'default_type': 'correspondence'}">
+                                    <tree string="Correspondence Log">
+                                        <field name="name"/>
+                                    </tree>
+                                    <form string="Correspondence Log">
+                                        <field name="name"/>
+                                        <field name="type" readonly="1"/>
+                                    </form>
                                 </field>
                             </group>
                             <group>
                                 <field name="doc_file_preview" widget="pdf_viewer" nolabel="1"/>
                             </group>
-                            <group string="Action">
-                                <field colspan="2" name="file_action" required="1" widget="radio"/>
-                                <field colspan="2" name="doc_file_status" widget="radio"/>
-                                <field name="designation_id" colspan="2"/>
-                                <field name="doc_remarks" colspan="2"/>
-                            </group>
+<!--                            <group string="Action">-->
+<!--                                <field colspan="2" name="file_action" required="1" widget="radio"/>-->
+<!--                                <field colspan="2" name="doc_file_status" widget="radio"/>-->
+<!--                                <field name="designation_id" colspan="2"/>-->
+<!--                                <field name="doc_remarks" colspan="2"/>-->
+<!--                            </group>-->
                         </group>
                         <footer>
                             <button name="save_record" string="Save" type="object" class="btn-primary"/>

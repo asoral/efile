@@ -12,8 +12,8 @@ class AddLetter(models.Model):
         if self._context.get('smart_office', False):
             vals['directory'] = self.env.ref('smart_office.smart_office_directory').id
             vals['responsible_user_id'] = self.env.user.id
-        if 'code' not in vals or vals['code'] == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('muk.dms.letter') or _('New')
+        # if 'code' not in vals or vals['code'] == _('New'):
+        #     vals['name'] = self.env['ir.sequence'].next_by_code('muk.dms.letter') or _('New')
         res = super(AddLetter, self).create(vals)
         if self._context.get('smart_office', False):
             self.env['muk.letter.tracker'].create(dict(
@@ -22,11 +22,12 @@ class AddLetter(models.Model):
                 to_id=self.env.user.id,
                 letter_id=res.id
             ))
+            res.directory.doc_file_preview = res.content
         return res
 
-    @api.constrains('name')
-    def _check_name(self):
-        pass
+    # @api.constrains('name')
+    # def _check_name(self):
+    #     pass
 
     # Letter Information
     responsible_user_id = fields.Many2one('res.users', default=lambda self:self.env.user.id)

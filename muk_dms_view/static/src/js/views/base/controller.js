@@ -610,35 +610,6 @@ var DocumentsController = Widget.extend(FileUpload, {
 	    			return !$jstree.can_paste() && !node.data.perm_create;
     			},
     		};
-//    	}
-//    	if(menu.action && menu.action.submenu) {
-    		menu.action.submenu.deal_with_file = {
-    			separator_before: false,
-    			separator_after: false,
-				icon: "fa fa-clipboard",
-    			label: _t("Deal With File"),
-    			action: function (data) {
-    			    self.params['muk_doc_data'] = data;
-                    self._rpc({
-                        model: 'ir.model.data',
-                        method: 'xmlid_to_res_id',
-                        kwargs: {xmlid: 'smart_office.view_add_files_doc_form_incoming'},
-                    }).then(function (res_id) {
-                        var muk_res_id = self.params.muk_doc_data.reference.prevObject.selector.split('_').reverse()[0];
-                        self.do_action({
-                            name: _t('Deal With File'),
-                            type: 'ir.actions.act_window',
-                            res_model: 'muk_dms.directory',
-                            views: [[res_id, 'form']],
-                            target: 'blank',
-                            res_id: parseInt(muk_res_id),
-                        });
-                    });
-    			},
-    			_disabled: function (data) {
-	    			return !$jstree.can_paste() && !node.data.perm_create;
-    			},
-    		};
     	}
     	menu.incoming_letter = {
 			separator_before: false,
@@ -679,6 +650,7 @@ var DocumentsController = Widget.extend(FileUpload, {
     },
     _loadContextMenuFile: function($jstree, node, menu) {
     	var self = this;
+    	self.params['jstree'] = $jstree;
     	menu.download = {
 			separator_before: false,
 			separator_after: false,
@@ -777,6 +749,38 @@ var DocumentsController = Widget.extend(FileUpload, {
     			return !node.data.perm_write;
 			},
 		};
+		if(menu.action && menu.action.submenu) {
+    		menu.action.submenu.deal_with_file = {
+    			separator_before: false,
+    			separator_after: false,
+				icon: "fa fa-clipboard",
+    			label: _t("Deal With File"),
+    			action: function (data) {
+    			    self.params['muk_doc_data'] = data;
+                    self._rpc({
+                        model: 'ir.model.data',
+                        method: 'xmlid_to_res_id',
+                        kwargs: {xmlid: 'smart_office.view_add_files_doc_form_incoming'},
+                    }).then(function (res_id) {
+                        var muk_res_id = self.params.muk_doc_data.reference.prevObject[0].id,
+                            directory = self.params.jstree._model.data[muk_res_id].data.odoo_record.directory[0];
+                        self.do_action({
+                            name: _t('Deal With File'),
+                            type: 'ir.actions.act_window',
+                            res_model: 'muk_dms.directory',
+                            views: [[res_id, 'form']],
+                            target: 'blank',
+                            res_id: directory,
+//                            context: {'default_directory': directory,
+//                                      'smart_office': 'smart_office'}
+                        });
+                    });
+    			},
+    			_disabled: function (data) {
+	    			return !$jstree.can_paste() && !node.data.perm_create;
+    			},
+    		};
+    	}
 
     	return menu;
     },

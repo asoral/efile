@@ -19,7 +19,7 @@
                                     <label for="name"
                                            attrs="{'invisible': [('document_type', '!=', 'document')]}"
                                            string="Document Number as in the Document itself"/>
-                                    <field name="name" required="1" nolabel="1" readonly="1"/>
+                                    <field name="name" required="1" nolabel="1"/>
                                     <field colspan="2" name="doc_tags"/>
                                     <field colspan="2" name="doc_enclosure"/>
                                     <field colspan="2" name="doc_enclosure_detail"/>

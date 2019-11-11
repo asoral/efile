@@ -5,6 +5,10 @@ class AddFiles(models.Model):
     _inherit = "muk_dms.directory"
     _description = "Add Files"
 
+    @api.model
+    def default_get(self, fields_list):
+        return super(AddFiles, self).default_get(fields_list)
+
     @api.multi
     def unlink(self):
         for rec in self:
@@ -55,7 +59,8 @@ class AddFiles(models.Model):
         }
         pass
 
-    note_log_ids = fields.One2many('muk.note.log', 'file_id')
+    note_log_ids = fields.One2many('muk.note.log', 'note_file_id')
+    correspondence_log_ids = fields.One2many('muk.note.log', 'correspondence_file_id')
 
     # action group
     file_action = fields.Selection([('forward', 'Forward'),
@@ -72,7 +77,12 @@ class NoteLog(models.Model):
     _name = "muk.note.log"
 
     name = fields.Html('Note: ')
-    file_id = fields.Many2one('muk_dms.directory')
+    note_file_id = fields.Many2one('muk_dms.directory')
+    correspondence_file_id = fields.Many2one('muk_dms.directory')
+
+    file_id = fields.Many2one('muk_dms.file')
+    type = fields.Selection([('green', 'Green'),
+                             ('correspondence', 'Correspondence')])
 
 class Designation(models.Model):
     _name = "muk.designation"
