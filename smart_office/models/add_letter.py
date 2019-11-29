@@ -7,6 +7,7 @@ class AddLetter(models.Model):
 
     current_owner_id = fields.Many2one('res.users', 'Current Owner')
 
+
     @api.model
     def create(self, vals):
         if self._context.get('smart_office', False):

@@ -5,10 +5,6 @@ class AddFiles(models.Model):
     _inherit = "muk_dms.directory"
     _description = "Add Files"
 
-    @api.model
-    def default_get(self, fields_list):
-        return super(AddFiles, self).default_get(fields_list)
-
     @api.multi
     def unlink(self):
         for rec in self:
@@ -72,6 +68,57 @@ class AddFiles(models.Model):
     @api.onchange('doc_name')
     def compute_doc_name_details(self):
         pass
+
+    def print_merged_report(self):
+        return self.env['ir.actions.report']._get_report_from_name(
+            'smart_office.merged_report_template').report_action(self.id)
+
+    def get_merged_report_data(self):
+        pdf_report = self.doc_file_preview
+
+        #get pdf to image
+        import base64
+
+        blob = base64.decodebytes(pdf_report)
+        import subprocess
+
+        subprocess.call(['chmod', '0777', 'byte.pdf'])
+
+        text_file = open('byte.pdf', 'wb')
+        text_file.write(blob)
+        text_file.close()
+
+        import os
+        import tempfile
+        from pdf2image import convert_from_path
+
+        filename = 'byte.pdf'
+        subprocess.call(['chmod', '0777', filename])
+        with tempfile.TemporaryDirectory() as path:
+            images_from_path = convert_from_path(filename, output_folder=path, last_page=1, first_page=0)
+
+        base_filename = os.path.splitext(os.path.basename(filename))[0] + '.jpg'
+
+        # save_dir = '/opt'
+        subprocess.call(['chmod', '0777', base_filename])
+        for page in images_from_path:
+            page.save(base_filename, 'JPEG')
+
+        import base64
+
+        with open(base_filename, "rb") as imageFile:
+            str = base64.b64encode(imageFile.read())
+
+        notes = []
+        for nt in self.note_log_ids:
+            notes.append(nt.name)
+
+        corres = []
+        for cr in self.correspondence_log_ids:
+            corres.append(cr.name)
+
+        return {'image': str, 'notes': notes, 'corres': corres}
+
 
 class NoteLog(models.Model):
     _name = "muk.note.log"

@@ -14,10 +14,10 @@ class CreateFile(models.TransientModel):
     reference_letter_ids = fields.Many2many('muk_dms.file', 'wizard_create_file_muk_file_rel', 'f1', 'f2', 'Reference')
 
     def save_record(self):
-        if not self.employee_id.user_id:
-            raise ValidationError(_('Please set related user of %s employee selected' % self.employee_id.name))
-        if self.doc_name.id != self.env.ref('smart_office.smart_office_directory').id:
-            raise ValidationError(_('Already Created File for this letter!'))
+        # if not self.employee_id.user_id:
+        #     raise ValidationError(_('Please set related user of %s employee selected' % self.employee_id.name))
+        # if self.doc_name.id != self.env.ref('smart_office.smart_office_directory').id:
+        #     raise ValidationError(_('Already Created File for this letter!'))
         self.doc_name.write(dict(
             doc_file_date=self.doc_file_date,
             doc_type_of_file=self.doc_type_of_file,
