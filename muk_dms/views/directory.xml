@@ -52,7 +52,7 @@
 </record>
 
 <record id="action_dms_files_directory" model="ir.actions.act_window">
-    <field name="name">Files</field>
+    <field name="name">Letters</field>
     <field name="view_type">form</field>
 	<field name="res_model">muk_dms.file</field>
 	<field name="view_mode">kanban,tree,graph,pivot,form</field>
@@ -106,7 +106,7 @@
 </record>
 
 <record id="action_dms_files_all_directory" model="ir.actions.act_window">
-    <field name="name">Files</field>
+    <field name="name">Letters</field>
     <field name="view_type">form</field>
 	<field name="res_model">muk_dms.file</field>
 	<field name="view_mode">kanban,tree,graph,pivot,form</field>
@@ -267,7 +267,7 @@
 	<field name="name">muk_dms_directory.tree</field>
 	<field name="model">muk_dms.directory</field>
 	<field name="arch" type="xml">
-		<tree string="Directories">
+		<tree string="Files">
 			<field name="name" />
 			<field name="write_date" />
 			<field name="count_files" string="Files" />
@@ -282,7 +282,7 @@
 	<field name="name">muk_dms_directory.form</field>
 	<field name="model">muk_dms.directory</field>
 	<field name="arch" type="xml">
- 		<form string="Directory" js_class="directory_form">
+ 		<form string="File" js_class="directory_form">
 			<header>
 			</header>
 			<sheet>
@@ -352,12 +352,12 @@
 							</tree>
 						</field>
 					</page>
-					<page name="page_files" string="Files">
+					<page name="page_files" string="Letters">
 						<field name="files" 
 							context="{'default_directory': active_id, 'mail_create_nolog': True}"
 							attrs="{'readonly':[('permission_create','=',False)]}">
 							<tree string="Files" limit="10">
-								<field name="name" />
+								<field name="name" string="Letter Number"/>
 								<field name="mimetype" />
 								<field name="size" widget="binary_size"/>
 								<field name="write_date" readonly="1" />
@@ -414,7 +414,7 @@
 </record>
 
 <record id="action_dms_directory" model="ir.actions.act_window">
-	<field name="name">Directories</field>
+	<field name="name">Files</field>
 	<field name="res_model">muk_dms.directory</field>
     <field name="view_type">form</field>
 	<field name="view_mode">kanban,tree,form</field>
@@ -430,7 +430,7 @@
     </field>
 </record>
 
-<menuitem id="menu_dms_directory" name="Directories" sequence="30"
+<menuitem id="menu_dms_directory" name="Files" sequence="30"
 	parent="main_menu_muk_dms" action="action_dms_directory" />
 	
 <record id="view_dms_directory_new_form" model="ir.ui.view">

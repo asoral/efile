@@ -25,7 +25,7 @@
 <odoo>
 
 <record id="action_dms_directories_storage" model="ir.actions.act_window">
-    <field name="name">Directories</field>
+    <field name="name">Files</field>
     <field name="view_type">form</field>
 	<field name="res_model">muk_dms.directory</field>
 	<field name="view_mode">kanban,tree,form</field>
@@ -53,7 +53,7 @@
 </record>
 
 <record id="action_dms_files_storage" model="ir.actions.act_window">
-    <field name="name">Files</field>
+    <field name="name">Letters</field>
     <field name="view_type">form</field>
 	<field name="res_model">muk_dms.file</field>
 	<field name="view_mode">kanban,tree,graph,pivot,form</field>
@@ -74,7 +74,7 @@
 </record>
 
 <record id="action_dms_file_storage_migration" model="ir.actions.act_window">
-	<field name="name">Files</field>
+	<field name="name">Letters</field>
 	<field name="res_model">muk_dms.file</field>
 	<field name="view_mode">tree</field>
 	<field name="search_view_id" ref="search_dms_file_migration"/>

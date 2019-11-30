@@ -37,16 +37,19 @@
                             <group>
                                 <field colspan="2" name="doc_name" required="1"/>
                                 <field name="doc_file_date" colspan="2" readonly="1"/>
-                                <field colspan="2" name="doc_type_of_file"/>
+                                <field colspan="2" name="doc_type_of_file" readonly="1" widget="many2many_tags"/>
                                 <field name="doc_file_status" colspan="2" widget="radio"/>
                             </group>
                             <group>
-                                <field colspan="2" name="doc_subject_matter" required="1"/>
+                                <field colspan="2" name="doc_subject_matter" required="1" readonly="1"/>
+                                <field name="department_id"/>
+                                <field name="job_position_id"/>
+                                <field name="employee_id"/>
                             </group>
                         </group>
                         <group>
                             <field name="reference_letter_ids" widget="many2many_tags" string="Reference"
-                                   options="{'not_delete': True}"/>
+                                   options="{'not_delete': True}" readonly="1"/>
                         </group>
                         <footer>
                             <button name="save_record" string="Save" type="object" class="btn-primary"/>

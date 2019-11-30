@@ -53,7 +53,7 @@
 	<field name="name">muk_dms_file_domain.tree</field>
 	<field name="model">muk_dms.file</field>
 	<field name="arch" type="xml">
-		<tree string="Files">
+		<tree string="Letters">
 			<field name="name" />
 			<field name="write_date" readonly="1" />
 			<field name="size" widget="binary_size"/>

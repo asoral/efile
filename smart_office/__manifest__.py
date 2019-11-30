@@ -27,6 +27,10 @@
         'views/add_files.xml',
         'views/files_view.xml',
         'views/wizard.xml',
+        'views/templates.xml',
+    ],
+    'qweb': [
+        'static/src/xml/*.xml',
     ],
     'demo': [
     ],

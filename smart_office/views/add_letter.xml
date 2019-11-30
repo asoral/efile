@@ -1,5 +1,57 @@
 <odoo>
     <data>
+        <record id="view_add_files_doc_form_inheriting" model="ir.ui.view">
+            <field name="name">Deal With File</field>
+            <field name="model">muk_dms.file</field>
+            <field name="inherit_id" ref="muk_dms.view_dms_file_form"/>
+            <field name="arch" type="xml">
+                <field name="create_uid" position="after">
+                    <field name="current_owner_id" readonly="1"/>
+                </field>
+                <label for="name" position="replace">
+                    <label for="name" class="oe_edit_only" string="Letter Number"/>
+                </label>
+                <page name="page_meta" position="before">
+                    <page name="letter_info" string="Letter Info">
+                        <group>
+                            <group>
+                                <field colspan="2" name="document_type" widget="radio" required="1"/>
+                                <field colspan="2" name="doc_enclosure"/>
+                                <field colspan="2" name="doc_enclosure_detail"/>
+                                <field colspan="2" name="doc_recieve_from" widget="radio" required="1"/>
+                                <field colspan="2" name="doc_type" required="1"/>
+                                <field colspan="2" name="doc_state"
+                                       attrs="{'invisible': [('doc_recieve_from', '=', 'private')]}"/>
+                                <field colspan="2" name="doc_department_id"
+                                       attrs="{'invisible': [('doc_recieve_from', '=', 'private')]}"/>
+                            </group>
+                            <group>
+                                <field colspan="2" name="doc_organisation_id"/>
+                                <field colspan="2" name="doc_sender_id"/>
+                                <field colspan="2" name="reciept_mode" required="1"/>
+                                <field colspan="2" name="doc_reciept_date" required="1"/>
+                                <field colspan="2" name="doc_subject"/>
+                                <field colspan="2" name="doc_remark"/>
+                                <field colspan="2" name="doc_letter_details"/>
+                                <field name="reference_ids" widget="many2many_tags"/>
+                            </group>
+                        </group>
+                    </page>
+                </page>
+                <page name="page_technical" position="after">
+                    <page name="letter_info" string="File Movement">
+                        <field name="tracker_ids">
+                            <tree string="File Movement">
+                                <field name="type"/>
+                                <field name="from_id"/>
+                                <field name="to_id"/>
+                            </tree>
+                        </field>
+                    </page>
+                </page>
+            </field>
+        </record>
+
         <record id="view_add_letter_doc_form" model="ir.ui.view">
             <field name="name">Add Document/Letter</field>
             <field name="model">muk_dms.file</field>
@@ -13,14 +65,13 @@
                             <group col="2">
                                 <group string="Letter/Document Information">
                                     <field colspan="2" name="document_type" widget="radio" required="1"/>
-                                    <label for="name"
-                                           attrs="{'invisible': [('document_type', '!=', 'letter')]}"
-                                           string="Letter Number as in the Letter itself"/>
-                                    <label for="name"
-                                           attrs="{'invisible': [('document_type', '!=', 'document')]}"
-                                           string="Document Number as in the Document itself"/>
-                                    <field name="name" required="1" nolabel="1"/>
-                                    <field colspan="2" name="doc_tags"/>
+                                    <field name="name" required="[('document_type', '!=', 'letter')]"
+                                           string="Letter Number"
+                                           attrs="{'invisible': [('document_type', '!=', 'letter')]}"/>
+                                    <field name="name" required="[('document_type', '!=', 'document')]"
+                                           string="Document Number"
+                                           attrs="{'invisible': [('document_type', '!=', 'document')]}"/>
+                                    <field colspan="2" name="tags" string="Tags" widget="many2many_tags"/>
                                     <field colspan="2" name="doc_enclosure"/>
                                     <field colspan="2" name="doc_enclosure_detail"/>
                                 </group>
@@ -38,13 +89,15 @@
                                     <field colspan="2" name="doc_subject"/>
                                     <field colspan="2" name="doc_remark"/>
                                     <field colspan="2" name="doc_letter_details"/>
-                                    <field colspan="2" name="doc_letter_category"/>
+                                    <field colspan="2" name="category" string="Doc Letter Category"/>
+                                    <field name="reference_ids" widget="many2many_tags" options="{'no_open': True, 'no_create': True}"/>
                                 </group>
                             </group>
                             <group>
-                                <field name="reference_ids" widget="many2many_tags"/>
-                                <field name="content" nolabel="1" filename="name"/>
-                                <field name="size" widget="binary_size"/>
+                                <group>
+                                    <field name="content" nolabel="1" filename="name"/>
+                                    <field name="size" widget="binary_size"/>
+                                </group>
                             </group>
                         </sheet>
                     </form>
@@ -78,8 +131,9 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="context">{'form_view_ref': 'smart_office.view_add_letter_doc_form',
-                                   'tree_view_ref': 'smart_office.view_add_letter_doc_tree',
-                                   'smart_office': 'smart_office'}</field>
+                'tree_view_ref': 'smart_office.view_add_letter_doc_tree',
+                'smart_office': 'smart_office'}
+            </field>
         </record>
 
         <menuitem id="menuitem_smart_office"
@@ -88,5 +142,34 @@
                   parent="menuitem_smart_office"
                   action="action_view_add_letter_doc"
                   name="Add Document/Letter"/>
+
+        <record id="view_dms_file_tree_inherit_cust" model="ir.ui.view">
+            <field name="name">muk_dms_file.tree</field>
+            <field name="model">muk_dms.file</field>
+            <field name="inherit_id" ref="muk_dms.view_dms_file_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="replace">
+                    <field name="name" string="Letter Number"/>
+                </field>
+                <field name="actions" position="after">
+                    <field name="current_owner_id"/>
+                    <field name="document_type"/>
+                    <field name="doc_enclosure"/>
+                    <field name="doc_enclosure_detail"/>
+                    <field name="doc_recieve_from"/>
+                    <field name="doc_type"/>
+                    <field name="doc_state"/>
+                    <field name="doc_department_id"/>
+                    <field name="doc_organisation_id"/>
+                    <field name="doc_sender_id"/>
+                    <field name="reciept_mode"/>
+                    <field name="doc_reciept_date"/>
+                    <field name="doc_subject"/>
+                    <field name="doc_remark"/>
+                    <field name="doc_letter_details"/>
+                    <field name="reference_ids"/>
+                </field>
+            </field>
+        </record>
     </data>
 </odoo>

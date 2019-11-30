@@ -1,5 +1,25 @@
 <odoo>
     <data>
+
+        <record id="view_dms_directory_form_incoming" model="ir.ui.view">
+            <field name="name">muk_dms_directory.form</field>
+            <field name="model">muk_dms.directory</field>
+            <field name="inherit_id" ref="muk_dms.view_dms_directory_form"/>
+            <field name="arch" type="xml">
+                <page name="page_directories" position="before">
+                    <page name="page_directories" string="Files Details">
+                        <group>
+                            <group>
+                                <field colspan="2" name="doc_type_of_file" readonly="1" widget="many2many_tags"/>
+                                <field name="doc_file_status" colspan="2" widget="radio"/>
+                                <field name="doc_subject_matter"/>
+                            </group>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+
         <record id="view_add_files_doc_form_incoming" model="ir.ui.view">
             <field name="name">Deal With File</field>
             <field name="model">muk_dms.directory</field>
@@ -33,12 +53,12 @@
                             <group>
                                 <field name="doc_file_preview" widget="pdf_viewer" nolabel="1"/>
                             </group>
-<!--                            <group string="Action">-->
-<!--                                <field colspan="2" name="file_action" required="1" widget="radio"/>-->
-<!--                                <field colspan="2" name="doc_file_status" widget="radio"/>-->
-<!--                                <field name="designation_id" colspan="2"/>-->
-<!--                                <field name="doc_remarks" colspan="2"/>-->
-<!--                            </group>-->
+                            <!--                            <group string="Action">-->
+                            <!--                                <field colspan="2" name="file_action" required="1" widget="radio"/>-->
+                            <!--                                <field colspan="2" name="doc_file_status" widget="radio"/>-->
+                            <!--                                <field name="designation_id" colspan="2"/>-->
+                            <!--                                <field name="doc_remarks" colspan="2"/>-->
+                            <!--                            </group>-->
                         </group>
                         <footer>
                             <button name="print_merged_report" string="Print" type="object" class="btn-primary"/>
@@ -103,19 +123,19 @@
                     <t t-foreach="docs" t-as="o">
                         <div class="page">
                             <t t-value="o.get_merged_report_data()" t-set="data"/>
-<!--                            <div class="row">-->
-<!--                                <div class="col-md-6">-->
-<!--                                    <t t-foreach="data['notes']" t-as="nt">-->
-<!--                                        <span>-->
-<!--                                            <t t-raw="nt"/>-->
-<!--                                        </span>-->
-<!--                                    </t>-->
-<!--                                </div>-->
-<!--                                <div class="col-md-6">-->
-<!--                                    <img t-att-src="'data:image/png;base64,%s' % to_text(data['image'])"-->
-<!--                                                 alt="" />-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            <!--                            <div class="row">-->
+                            <!--                                <div class="col-md-6">-->
+                            <!--                                    <t t-foreach="data['notes']" t-as="nt">-->
+                            <!--                                        <span>-->
+                            <!--                                            <t t-raw="nt"/>-->
+                            <!--                                        </span>-->
+                            <!--                                    </t>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="col-md-6">-->
+                            <!--                                    <img t-att-src="'data:image/png;base64,%s' % to_text(data['image'])"-->
+                            <!--                                                 alt="" />-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
                             <table width="100%">
                                 <thead>
                                     <tr>
@@ -128,7 +148,7 @@
                                         </td>
                                         <td width="50%">
                                             <img t-att-src="'data:image/png;base64,%s' % to_text(data['image'])"
-                                                     alt="" height="600" width="200"/>
+                                                 alt="" height="600" width="200"/>
                                         </td>
                                     </tr>
                                 </thead>

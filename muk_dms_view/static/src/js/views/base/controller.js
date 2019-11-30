@@ -611,41 +611,6 @@ var DocumentsController = Widget.extend(FileUpload, {
     			},
     		};
     	}
-    	menu.incoming_letter = {
-			separator_before: false,
-			separator_after: false,
-			icon: "fa fa-pencil",
-			label: _t("Incoming Letters"),
-			action: function (data) {
-			    self.params['muk_doc_data'] = data;
-				self._rpc({
-                    model: 'ir.model.data',
-                    method: 'xmlid_to_res_id',
-                    kwargs: {xmlid: 'smart_office.view_add_letter_doc_form'},
-                }).then(function (res_id) {
-                    var muk_res_id = self.params.muk_doc_data.reference.prevObject.selector.split('_').reverse()[0];
-                    self.do_action({
-                        name: _t('Add Document/Letter'),
-                        type: 'ir.actions.act_window',
-                        res_model: 'muk_dms.file',
-                        views: [[res_id, 'form']],
-                        target: 'blank',
-                        context: {
-                            'default_directory': parseInt(muk_res_id),
-                            'smart_office': 'smart_office',
-                        }
-
-                    }, {
-                        on_reverse_breadcrumb: function() {
-                            self.trigger_up('reverse_breadcrumb', {});
-                        }
-                    });
-                });
-			},
-			_disabled: function (data) {
-    			return !node.data.perm_write;
-			},
-		};
     	return menu;
     },
     _loadContextMenuFile: function($jstree, node, menu) {
@@ -696,19 +661,46 @@ var DocumentsController = Widget.extend(FileUpload, {
                     method: 'xmlid_to_res_id',
                     kwargs: {xmlid: 'smart_office.view_wizard_create_file'},
                 }).then(function (res_id) {
-                    var muk_res_id = self.params.muk_doc_data.reference.prevObject.selector.split('_').reverse()[0];
-                    self.do_action({
-                        name: _t('Create File'),
-                        type: 'ir.actions.act_window',
-                        res_model: 'wizard.create.file',
-                        views: [[res_id, 'form']],
-                        target: 'new',
-                        context: {
-                            'default_reference_letter_ids': [parseInt(muk_res_id)],
-                            'letter_id': parseInt(muk_res_id),
+                    var muk_data = self.params.jstree._model.data;
+                    var directory_id;
+                    var muk_res_id;
+                    self.params.view_id = res_id;
+                    for (var for_i in self.params.jstree._model.data){
+                        if ("#"+muk_data[for_i].id == self.params.muk_doc_data.reference.prevObject.selector){
+                            directory_id = muk_data[for_i].data.odoo_record.directory
+                            muk_res_id = muk_data[for_i].data.odoo_id;
                         }
+                    }
+                    self.params['muk_data'] = muk_data;
+                    self.params['directory_id'] = directory_id;
+                    self.params['muk_res_id'] = muk_res_id;
 
+                    self._rpc({
+                        model: 'ir.model.data',
+                        method: 'xmlid_to_res_id',
+                        kwargs: {xmlid: 'smart_office.smart_office_directory'},
+                    }).then(function (res_id) {
+//                        This is to check that the directory is not "Incoming Files"
+                        if (res_id == self.params.directory_id[0]){
+                            self.do_action({
+                                name: _t('Create File'),
+                                type: 'ir.actions.act_window',
+                                res_model: 'wizard.create.file',
+                                views: [[self.params.view_id, 'form']],
+                                target: 'new',
+                                context: {
+                                    'default_reference_letter_ids': [parseInt(self.params.muk_res_id)],
+                                    'letter_id': parseInt(self.params.muk_res_id),
+                                }
+
+                            });
+                        }
+                        else{
+                            alert('File already Created!')
+                        }
                     });
+
+
                 });
 
 

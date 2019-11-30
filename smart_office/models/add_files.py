@@ -7,10 +7,10 @@ class AddFiles(models.Model):
 
     @api.multi
     def unlink(self):
-        for rec in self:
-            if rec.id == self.env.ref('smart_office.smart_office_directory').id or \
-                    rec.id == self.env.ref('smart_office.smart_office_directory_root').id:
-                raise ValidationError(_('\"Incoming Files\" and \"Root Directory\" directory cannot be deleted!'))
+        # for rec in self:
+        #     if rec.id == self.env.ref('smart_office.smart_office_directory').id or \
+        #             rec.id == self.env.ref('smart_office.smart_office_directory_root').id:
+        #         raise ValidationError(_('\"Incoming Files\" and \"Root Directory\" directory cannot be deleted!'))
         return super(AddFiles, self).unlink()
 
     doc_file_date = fields.Date('File Date', default=fields.Date.context_today)
@@ -19,6 +19,9 @@ class AddFiles(models.Model):
                                         ('important', 'Important'),
                                         ('urgent', 'Urgent')], default='normal')
     doc_subject_matter = fields.Text('Subject Matter')
+    department_id = fields.Many2one('hr.department', 'Department')
+    job_position_id = fields.Many2one('hr.job', 'Job Position')
+    employee_id = fields.Many2one('hr.employee', 'Employee')
 
     @api.model
     def create(self, vals):

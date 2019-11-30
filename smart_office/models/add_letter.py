@@ -7,16 +7,18 @@ class AddLetter(models.Model):
 
     current_owner_id = fields.Many2one('res.users', 'Current Owner')
 
+    tracker_ids = fields.One2many('muk.letter.tracker', 'letter_id')
+
 
     @api.model
     def create(self, vals):
-        if self._context.get('smart_office', False):
+        if self._context.get('smart_office_incoming_letter', False):
             vals['directory'] = self.env.ref('smart_office.smart_office_directory').id
             vals['responsible_user_id'] = self.env.user.id
         # if 'code' not in vals or vals['code'] == _('New'):
         #     vals['name'] = self.env['ir.sequence'].next_by_code('muk.dms.letter') or _('New')
         res = super(AddLetter, self).create(vals)
-        if self._context.get('smart_office', False):
+        if self._context.get('smart_office_incoming_letter', False):
             self.env['muk.letter.tracker'].create(dict(
                 type='create',
                 # from_id=False,
@@ -36,7 +38,7 @@ class AddLetter(models.Model):
                                       ('document', 'Document')], default='letter')
     # doc_no = fields.Char()
 
-    doc_tags = fields.Text('Tags')
+    # doc_tags = fields.Text('Tags')
     doc_enclosure = fields.Selection([('book', 'Book'),
                                      ('service_book', 'Service Book'),
                                      ('cd_dvd', 'CD or DVD')])
@@ -63,12 +65,12 @@ class AddLetter(models.Model):
     doc_state = fields.Many2one('res.country.state', 'State')
     doc_department_id = fields.Many2one('muk.doc.department', 'Department')
     doc_letter_details = fields.Text('Letter Details')
-    doc_letter_category = fields.Selection([('salary', 'Salary'),
-                                            ('employee_details', 'Employee Details'),
-                                            ('forest_conservation', 'Forest Conservation'),
-                                            ('legislative_sec', 'Legislative Sec'),
-                                            ('view_sec', 'View Sec'),
-                                            (('lr_sec', 'LR Sec'))], default='salary')
+    # doc_letter_category = fields.Selection([('salary', 'Salary'),
+    #                                         ('employee_details', 'Employee Details'),
+    #                                         ('forest_conservation', 'Forest Conservation'),
+    #                                         ('legislative_sec', 'Legislative Sec'),
+    #                                         ('view_sec', 'View Sec'),
+    #                                         (('lr_sec', 'LR Sec'))], default='salary')
 
     reference_ids = fields.Many2many('muk_dms.file', 'muk_dms_file_rel', 'field1', 'field2', 'Reference Letter')
 
